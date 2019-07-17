@@ -2,6 +2,11 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from './components/Login'
 import Home from './components/Home.vue'
+import welcome from './components/Welcome.vue'
+import users from './components/user/users'
+import Roles from './components/power/Roles'
+import Rights from './components/power/Rights'
+
 Vue.use(Router)
 Vue.config.productionTip = false
 
@@ -11,7 +16,26 @@ const router = new Router({
         { path: '/', redirect: '/login' },
         //登录
         { path: '/login', component: Login },
-        { path: '/home', component: Home }
+        {
+            path: '/home',
+            component: Home,
+            redirect: '/welcome',
+            children: [{
+                    path: '/welcome',
+                    component: welcome
+                }, {
+                    path: '/users',
+                    component: users
+                }, {
+                    path: '/roles',
+                    component: Roles
+                },
+                {
+                    path: '/rights',
+                    component: Rights
+                }
+            ]
+        }
     ]
 });
 //挂载导航守卫
