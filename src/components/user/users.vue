@@ -50,7 +50,7 @@
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteUser(scope.row.id)"></el-button>
           <!-- 分配角色按钮 -->
           <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
-            <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+            <el-button type="warning" icon="el-icon-setting" size="mini" @click="assignRoles(scope.row)"></el-button>
           </el-tooltip>
         </template>
       </el-table-column>
@@ -66,9 +66,9 @@
     >
     </el-pagination>
     <!-- 这是添加按钮的页面 -->
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" @close="closeDialog">
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" @close="closeDialog1">
       <div>
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form :model="ruleForm" :rules="rules" ref="addRuleForm" label-width="100px" class="demo-ruleForm">
           <el-form-item label="用户" prop="username">
             <el-input v-model="ruleForm.username"></el-input>
           </el-form-item>
@@ -105,6 +105,25 @@
         <el-button @click="editDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="editUser">确 定</el-button>
       </span>
+    </el-dialog>
+    <!-- 分配角色页面 -->
+    <el-dialog title="分配角色" :visible.sync="dialogFormVisible"  @close="closeAAA">
+      <el-form>
+        <div>姓名:{{ this.userPower.username }}</div>
+        <br />
+        <div>当前角色:{{ this.userPower.role_name }}</div>
+        <br />
+        <p>
+          分配新角色:
+          <el-select v-model="changeRole" placeholder="请选择">
+            <el-option v-for="item in allRoles" :key="item.id" :label="item.roleName" :value="item.id" ref="xxxx"> </el-option>
+          </el-select>
+        </p>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmUser">确 定</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -150,6 +169,9 @@ export default {
       dialogVisible: false,
       //定义修改按钮显示隐藏
       editDialogVisible: false,
+      //分配角色
+      changeRole: "",
+      dialogFormVisible: false,
       ruleForm: {
         username: "",
         password: "123456",
@@ -196,7 +218,11 @@ export default {
             trigger: "blur"
           }
         ]
-      }
+      },
+      //保存分配角色的名字和角色
+      userPower: "",
+      //保存获取到的角色
+      allRoles: ""
     };
   },
   created() {
@@ -243,8 +269,8 @@ export default {
     //   editDialogVisible = !editDialogVisible;
     // },
     //定义添加用户对话框重置
-    closeDialog() {
-      this.$refs.ruleForm.resetFields();
+    closeDialog1() {
+      this.$refs.addRuleForm.resetFields();
     },
     //定义修改按钮删除对话框重置
     closeDialog() {
@@ -311,8 +337,27 @@ export default {
         this.getUsersList();
         this.editDialogVisible = false;
       });
+    },
+    //分配角色按钮
+    async assignRoles(userinfo) {
+      this.dialogFormVisible = true;
+      this.userPower = userinfo;
+      //调用接口
+      const { data: res } = await this.$http.get("roles");
+      this.allRoles = res.data;
+    },
+    //点击确定分配角色
+    async confirmUser() {
+      this.dialogFormVisible = false;
+      //调用接口
+      const {data:res} = await this.$http.put(`users/${this.userPower.id}/role`,{rid:this.changeRole})
+      if(res.meta.status !== 200){return this.$message.error(res.meta.msg)}
+    this.getUsersList();
+    },
+    //分配角色关闭事件
+    closeAAA(){
+      this.changeRole='';
     }
-    //点击取消就关闭并还原内容
   }
 };
 </script>

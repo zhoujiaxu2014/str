@@ -5,7 +5,7 @@ import { Input } from 'element-ui'
 import { Message, Header, Container, Aside, Main, MenuItem, Breadcrumb, BreadcrumbItem, Card, Option, Select, Col, Row } from 'element-ui'
 import { Submenu } from 'element-ui'
 import { Menu } from 'element-ui'
-import { MenuItemGroup, Table, TableColumn, Switch, Tooltip, Pagination, Dialog, MessageBox, Tag } from 'element-ui'
+import { MenuItemGroup, Table, TableColumn, Switch, Tooltip, Pagination, Dialog, MessageBox, Tag, tree } from 'element-ui'
 
 Vue.use(Button)
 Vue.use(Input)
@@ -33,6 +33,7 @@ Vue.use(Tooltip)
 Vue.use(Pagination)
 Vue.use(Dialog)
 Vue.use(Tag)
+Vue.use(tree)
 
 //挂载到全局
 Vue.prototype.$message = Message
