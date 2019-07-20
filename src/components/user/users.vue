@@ -364,6 +364,7 @@ export default {
 
 <style scoped lang="less">
 .box-card {
-  margin-top: 15px;
+  margin: 10px;
+
 }
 </style>

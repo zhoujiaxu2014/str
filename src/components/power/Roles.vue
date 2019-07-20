@@ -200,7 +200,6 @@ export default {
 .box-card {
   margin-top: 15px;
 }
-
 .addUser {
   margin: 0 0 10px 0;
   cursor: pointer;

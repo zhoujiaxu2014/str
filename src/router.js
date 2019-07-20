@@ -6,6 +6,7 @@ import welcome from './components/Welcome.vue'
 import users from './components/user/users'
 import Roles from './components/power/Roles'
 import Rights from './components/power/Rights'
+import Cate from './components//cate/cate'
 
 Vue.use(Router)
 Vue.config.productionTip = false
@@ -33,7 +34,11 @@ const router = new Router({
                 {
                     path: '/rights',
                     component: Rights
+                }, {
+                    path: '/categories',
+                    component: Cate
                 }
+
             ]
         }
     ]
