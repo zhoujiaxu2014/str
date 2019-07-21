@@ -7,7 +7,7 @@ import users from './components/user/users'
 import Roles from './components/power/Roles'
 import Rights from './components/power/Rights'
 import Cate from './components//cate/cate'
-
+import Params from './components/cate/params'
 Vue.use(Router)
 Vue.config.productionTip = false
 
@@ -37,6 +37,9 @@ const router = new Router({
                 }, {
                     path: '/categories',
                     component: Cate
+                }, {
+                    path: '/params',
+                    component: Params
                 }
 
             ]
