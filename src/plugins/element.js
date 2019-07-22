@@ -5,7 +5,7 @@ import { Input } from 'element-ui'
 import { Message, Header, Container, Aside, Main, MenuItem, Breadcrumb, BreadcrumbItem, Card, Option, Select, Col, Row } from 'element-ui'
 import { Submenu } from 'element-ui'
 import { Menu } from 'element-ui'
-import { MenuItemGroup, Table, TableColumn, Switch, Tooltip, Pagination, Dialog, MessageBox, Tag, tree, Cascader } from 'element-ui'
+import { MenuItemGroup, Table, TableColumn, Switch, Tooltip, Pagination, Dialog, MessageBox, Tag, tree, Cascader, Alert, TabPane, Tabs, Popover } from 'element-ui'
 
 Vue.use(Button)
 Vue.use(Input)
@@ -35,7 +35,10 @@ Vue.use(Dialog)
 Vue.use(Tag)
 Vue.use(tree)
 Vue.use(Cascader)
-
-//挂载到全局
+Vue.use(Alert)
+Vue.use(TabPane)
+Vue.use(Tabs)
+Vue.use(Popover)
+    //挂载到全局
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
