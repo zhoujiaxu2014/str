@@ -278,7 +278,7 @@ export default {
     },
     //用户添加确认按钮
     addUser() {
-      this.$refs.ruleForm.validate(async valid => {
+      this.$refs.addRuleForm.validate(async valid => {
         // console.log(valid);
         if (!valid) return;
         //调用接口
