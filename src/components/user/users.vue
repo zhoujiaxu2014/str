@@ -32,14 +32,14 @@
     <!-- 用户信息 -->
     <el-table :data="userlist" stripe border style="width: 100%">
       <el-table-column type="index"></el-table-column>
-      <el-table-column prop="username" label="姓名" width="180"> </el-table-column>
-      <el-table-column prop="email" label="邮箱" width="180"> </el-table-column>
-      <el-table-column prop="mobile" label="电话"> </el-table-column>
-      <el-table-column prop="role_name" label="角色"> </el-table-column>
+      <el-table-column prop="username" label="姓名" width="180"></el-table-column>
+      <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
+      <el-table-column prop="mobile" label="电话"></el-table-column>
+      <el-table-column prop="role_name" label="角色"></el-table-column>
       <el-table-column label="状态">
         <!-- 作用域插槽 -->
         <template slot-scope="scope">
-          <el-switch v-model="scope.row.mg_state" @change="switchChanage(scope.row)"> </el-switch>
+          <el-switch v-model="scope.row.mg_state" @change="switchChanage(scope.row)"></el-switch>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="180px">
@@ -47,10 +47,20 @@
           <!-- 修改按钮 -->
           <el-button type="primary" icon="el-icon-edit" size="mini" @click="getUser(scope.row.id)"></el-button>
           <!-- 删除按钮 -->
-          <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteUser(scope.row.id)"></el-button>
+          <el-button
+            type="danger"
+            icon="el-icon-delete"
+            size="mini"
+            @click="deleteUser(scope.row.id)"
+          ></el-button>
           <!-- 分配角色按钮 -->
           <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
-            <el-button type="warning" icon="el-icon-setting" size="mini" @click="assignRoles(scope.row)"></el-button>
+            <el-button
+              type="warning"
+              icon="el-icon-setting"
+              size="mini"
+              @click="assignRoles(scope.row)"
+            ></el-button>
           </el-tooltip>
         </template>
       </el-table-column>
@@ -63,12 +73,17 @@
       :page-size="queryInfo.pagesize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
-    >
-    </el-pagination>
+    ></el-pagination>
     <!-- 这是添加按钮的页面 -->
     <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" @close="closeDialog1">
       <div>
-        <el-form :model="ruleForm" :rules="rules" ref="addRuleForm" label-width="100px" class="demo-ruleForm">
+        <el-form
+          :model="ruleForm"
+          :rules="rules"
+          ref="addRuleForm"
+          label-width="100px"
+          class="demo-ruleForm"
+        >
           <el-form-item label="用户" prop="username">
             <el-input v-model="ruleForm.username"></el-input>
           </el-form-item>
@@ -90,7 +105,13 @@
     </el-dialog>
     <!-- 修改按钮 -->
     <el-dialog title="提示" :visible.sync="editDialogVisible" width="30%" @close="closeDialog">
-      <el-form :model="getuser" :rules="rules" ref="editruleForm" label-width="100px" class="demo-ruleForm">
+      <el-form
+        :model="getuser"
+        :rules="rules"
+        ref="editruleForm"
+        label-width="100px"
+        class="demo-ruleForm"
+      >
         <el-form-item label="用户" prop="username">
           <el-input v-model="getuser.username" disabled></el-input>
         </el-form-item>
@@ -107,7 +128,7 @@
       </span>
     </el-dialog>
     <!-- 分配角色页面 -->
-    <el-dialog title="分配角色" :visible.sync="dialogFormVisible"  @close="closeAAA">
+    <el-dialog title="分配角色" :visible.sync="dialogFormVisible" @close="closeAAA">
       <el-form>
         <div>姓名:{{ this.userPower.username }}</div>
         <br />
@@ -116,7 +137,13 @@
         <p>
           分配新角色:
           <el-select v-model="changeRole" placeholder="请选择">
-            <el-option v-for="item in allRoles" :key="item.id" :label="item.roleName" :value="item.id" ref="xxxx"> </el-option>
+            <el-option
+              v-for="item in allRoles"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id"
+              ref="xxxx"
+            ></el-option>
           </el-select>
         </p>
       </el-form>
@@ -231,7 +258,9 @@ export default {
   },
   methods: {
     async getUsersList() {
-      const { data: res } = await this.$http.get("users", { params: this.queryInfo });
+      const { data: res } = await this.$http.get("users", {
+        params: this.queryInfo
+      });
       // console.log(res);
       if (res.meta.status !== 200) {
         return res.meta.msg;
@@ -253,7 +282,9 @@ export default {
     },
     //定义用户状态开关
     async switchChanage(userInfo) {
-      const { data: res } = await this.$http.put(`users/${userInfo.id}/state/${userInfo.mg_state}`);
+      const { data: res } = await this.$http.put(
+        `users/${userInfo.id}/state/${userInfo.mg_state}`
+      );
       if (res.meta.status !== 200) {
         userinfo.mg_state = !userinfo.mg_state;
         return this.$message.error("更新用户状态失败！");
@@ -278,7 +309,7 @@ export default {
     },
     //用户添加确认按钮
     addUser() {
-      this.$refs.ruleForm.validate(async valid => {
+      this.$refs.addRuleForm.validate(async valid => {
         // console.log(valid);
         if (!valid) return;
         //调用接口
@@ -350,13 +381,18 @@ export default {
     async confirmUser() {
       this.dialogFormVisible = false;
       //调用接口
-      const {data:res} = await this.$http.put(`users/${this.userPower.id}/role`,{rid:this.changeRole})
-      if(res.meta.status !== 200){return this.$message.error(res.meta.msg)}
-    this.getUsersList();
+      const { data: res } = await this.$http.put(
+        `users/${this.userPower.id}/role`,
+        { rid: this.changeRole }
+      );
+      if (res.meta.status !== 200) {
+        return this.$message.error(res.meta.msg);
+      }
+      this.getUsersList();
     },
     //分配角色关闭事件
-    closeAAA(){
-      this.changeRole='';
+    closeAAA() {
+      this.changeRole = "";
     }
   }
 };
@@ -365,6 +401,5 @@ export default {
 <style scoped lang="less">
 .box-card {
   margin: 10px;
-
 }
 </style>
