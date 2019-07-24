@@ -8,6 +8,8 @@ import Roles from './components/power/Roles'
 import Rights from './components/power/Rights'
 import Cate from './components//cate/cate'
 import Params from './components/cate/params'
+import GoodsList from './components/cate/list'
+import Add from './components/cate/Add'
 Vue.use(Router)
 Vue.config.productionTip = false
 
@@ -40,6 +42,12 @@ const router = new Router({
                 }, {
                     path: '/params',
                     component: Params
+                }, {
+                    path: '/goods',
+                    component: GoodsList
+                }, {
+                    path: '/goods/list',
+                    component: Add
                 }
 
             ]
